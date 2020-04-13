@@ -59,6 +59,7 @@ func (a ApiErrors) Error() string {
 }
 
 // Get returns the Ip if it get 2 matched IPs from the default ip Lookup services
+//
 // Usage:
 //
 //package main
