@@ -73,7 +73,10 @@ func main() {
 }
 ```
 
-Please now that you need to pass at least two services into the list.
+Please note that you need to pass at least two services into the list.
+
+## Errors
+You can cast the returned error to ApiErrors and inspect the returned error for each failed service call. Please take a look at the test file for more details.
 
 ## Credits
 Based on https://github.com/chyeh/pubip
