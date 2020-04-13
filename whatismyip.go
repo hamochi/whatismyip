@@ -62,50 +62,51 @@ func (a ApiErrors) Error() string {
 //
 // Usage:
 //
-//package main
+//	package main
 //
-//import (
-//	"fmt"
-//	"log"
-//	"github.com/hamochi/whatismyip"
-//)
+//	import (
+//		"fmt"
+//		"log"
+//		"github.com/hamochi/whatismyip"
+//	)
 //
-//func main() {
-//	ip, err := whatismyip.Get()
-//	if err != nil {
-//		log.Fatal(err)
+//	func main() {
+//		ip, err := whatismyip.Get()
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//		fmt.Println(ip.String())
 //	}
-//
-//	fmt.Println(ip.String())
-//}
 func Get() (net.IP, error) {
 	return GetWithCustomServices(defaultIpServices)
 }
 
 // GetWithCustomServices returns the Ip if it get 2 matched IPs from the provided ip Lookup services
+//
 // Usage:
 //
-//package main
+//	package main
 //
-//import (
-//	"fmt"
-//	"github.com/hamochi/whatismyip"
-//	"log"
-//)
+//	import (
+//		"fmt"
+//		"github.com/hamochi/whatismyip"
+//		"log"
+//	)
 //
-//func main() {
-//	ip, err := whatismyip.GetWithCustomServices([]string{
-//		"http://myexternalip.com/raw",
-//		"http://ipinfo.io/ip",
-//		"http://ipecho.net/plain",
-//		"http://icanhazip.com",
-//	})
-//	if err != nil {
-//		log.Fatal(err)
+//	func main() {
+//		ip, err := whatismyip.GetWithCustomServices([]string{
+//			"http://myexternalip.com/raw",
+//			"http://ipinfo.io/ip",
+//			"http://ipecho.net/plain",
+//			"http://icanhazip.com",
+//		})
+//		if err != nil {
+//			log.Fatal(err)
+//		}
+//
+//		fmt.Println(ip.String())
 //	}
-//
-//	fmt.Println(ip.String())
-//}
 func GetWithCustomServices(services []string) (net.IP, error) {
 	resultCh := make(chan apiResult)
 	ctx, cancel := context.WithCancel(context.Background())
