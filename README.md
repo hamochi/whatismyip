@@ -1,7 +1,7 @@
 # whatismyip
 Get your public Ip by looking it up on public  ip services.
 
-[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chyeh/pubip/master/UNLICENSE)
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hamochi/whatismyip/master/LICENSE)
 [![GoDoc](https://godoc.org/github.com/hamochi/whatismyip?status.svg)](https://godoc.org/github.com/hamochi/whatismyip)
 [![Build Status](https://travis-ci.com/hamochi/whatismyip.svg?branch=master)](https://travis-ci.com/hamochi/whatismyip)
 
@@ -74,3 +74,6 @@ func main() {
 ```
 
 Please now that you need to pass at least two services into the list.
+
+## Credits
+Based on https://github.com/chyeh/pubip
