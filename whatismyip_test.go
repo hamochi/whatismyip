@@ -92,7 +92,7 @@ func TestTimeOut(t *testing.T) {
 				t.Fatalf("unexpected error type, want net.Error, got something else %s", res.err.Error())
 			}
 			if netErr.Timeout() == false {
-				t.Fatalf("unexpected net.Error, was looking for Timeout error, got something else, %s", res.err.Error())
+				t.Fatalf("unexpected net.Error, was looking for Timeout() to be true, but it's not")
 			}
 		}
 
