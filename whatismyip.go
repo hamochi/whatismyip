@@ -36,7 +36,14 @@ type apiResult struct {
 	err      error
 }
 
-type ApiErrors []apiResult
+// ApiError will be returned for each service that returned an error
+type ApiError struct {
+	EndPoint string
+	Err      error
+}
+
+// ApiErrors is a custom error type returned when IP could not be fetched
+type ApiErrors []ApiError
 
 func (a ApiErrors) Is(target error) bool {
 	_, ok := target.(ApiErrors)
@@ -49,11 +56,7 @@ func (a ApiErrors) Is(target error) bool {
 func (a ApiErrors) Error() string {
 	s := strings.Builder{}
 	for _, result := range a {
-		if result.err != nil {
-			s.WriteString(fmt.Sprintf("\nEndpoint: %s, Returned IP: nil, error: %s", result.endPoint, result.err.Error()))
-		} else {
-			s.WriteString(fmt.Sprintf("\nEndpoint: %s, Returned IP: %s, error: nil", result.endPoint, result.ip.String()))
-		}
+		s.WriteString(fmt.Sprintf("\nEndpoint: %s, error: %s", result.EndPoint, result.Err.Error()))
 	}
 	return s.String()
 }
@@ -125,11 +128,14 @@ func GetWithCustomServices(services []string) (net.IP, error) {
 	}
 
 	count := make(map[string]bool)
-	allResults := ApiErrors{}
+	apiErrors := ApiErrors{}
 	for i := 0; i < len(services); i++ {
 		select {
 		case result := <-resultCh:
-			allResults = append(allResults, result)
+			if result.err != nil {
+				apiErrors = append(apiErrors, ApiError{result.endPoint, result.err})
+			}
+
 			if result.ip != nil {
 				_, ok := count[result.ip.String()]
 				if ok {
@@ -141,7 +147,7 @@ func GetWithCustomServices(services []string) (net.IP, error) {
 		}
 	}
 
-	return nil, fmt.Errorf("could not get two matched IPs: returned %w", allResults)
+	return nil, fmt.Errorf("could not get two matched IPs: returned %w", apiErrors)
 }
 
 func call(ctx context.Context, endpoint string) (net.IP, error) {

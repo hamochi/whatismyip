@@ -86,10 +86,10 @@ func TestTimeOut(t *testing.T) {
 
 	for _, res := range apiResults {
 		var netErr net.Error
-		if res.err != nil {
-			ok := errors.As(res.err, &netErr)
+		if res.Err != nil {
+			ok := errors.As(res.Err, &netErr)
 			if !ok {
-				t.Fatalf("unexpected error type, want net.Error, got something else %s", res.err.Error())
+				t.Fatalf("unexpected error type, want net.Error, got something else %s", res.Err.Error())
 			}
 			if netErr.Timeout() == false {
 				t.Fatalf("unexpected net.Error, was looking for Timeout() to be true, but it's not")
