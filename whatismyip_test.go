@@ -106,7 +106,7 @@ func TestDefaultServices(t *testing.T) {
 	for _, s := range defaultIpServices {
 		t.Run(s, func(t *testing.T) {
 			ctx, _ := context.WithCancel(context.Background())
-			_, err := call(ctx, s)
+			_, err := call(&ctx, s)
 			if err != nil {
 				t.Errorf("found err in endpoint: %s ", err)
 			}

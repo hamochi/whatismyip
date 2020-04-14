@@ -112,18 +112,26 @@ func Get() (net.IP, error) {
 //	}
 func GetWithCustomServices(services []string) (net.IP, error) {
 	resultCh := make(chan apiResult)
+	defer close(resultCh)
+
 	ctx, cancel := context.WithCancel(context.Background())
 	for _, endpoint := range services {
 		go func(e string) {
 			var result apiResult
-			result.endPoint = endpoint
+			result.endPoint = e
+			ip, err := call(&ctx, e)
 
-			ip, err := call(ctx, e)
-			if err != nil {
-				result.err = err
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				if err != nil {
+					result.err = err
+				}
+				result.ip = ip
+				resultCh <- result
 			}
-			result.ip = ip
-			resultCh <- result
+
 		}(endpoint)
 	}
 
@@ -150,12 +158,12 @@ func GetWithCustomServices(services []string) (net.IP, error) {
 	return nil, fmt.Errorf("could not get two matched IPs: returned %w", apiErrors)
 }
 
-func call(ctx context.Context, endpoint string) (net.IP, error) {
+func call(ctx *context.Context, endpoint string) (net.IP, error) {
 	client := http.Client{
 		Timeout: Timeout,
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", endpoint, nil)
+	req, err := http.NewRequestWithContext(*ctx, "GET", endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
