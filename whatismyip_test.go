@@ -101,7 +101,7 @@ func TestTimeOut(t *testing.T) {
 }
 
 func TestDefaultServices(t *testing.T) {
-	Timeout = time.Second * 2
+	Timeout = time.Second * 5
 
 	for _, s := range defaultIpServices {
 		t.Run(s, func(t *testing.T) {
