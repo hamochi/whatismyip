@@ -10,7 +10,7 @@ This package calls several public ip lookup services and when it matches ip from
 
 ## Install
 ````go
-go get github.com/hamochi/whatismyip"
+go get -u github.com/hamochi/whatismyip"
 ````
 ## Usage
 ```go
