@@ -9,9 +9,9 @@ Get your public Ip by looking it up on public  ip services.
 This package calls several public ip lookup services and when it matches ip from at least two sources it returns it, otherwise it returns an error.
 
 ## Install
-````go
-go get -u github.com/hamochi/whatismyip"
-````
+```console
+$ go get -u github.com/hamochi/whatismyip"
+```
 ## Usage
 ```go
 package main
