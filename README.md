@@ -12,6 +12,7 @@ This package calls several public ip lookup services and when it matches ip from
 ```console
 $ go get -u github.com/hamochi/whatismyip"
 ```
+
 ## Usage
 ```go
 package main

@@ -131,7 +131,6 @@ func GetWithCustomServices(services []string) (net.IP, error) {
 				result.ip = ip
 				resultCh <- result
 			}
-
 		}(endpoint)
 	}
 
